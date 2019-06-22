@@ -1,0 +1,20 @@
+{
+  "name": "crypto-exchange",
+  "version": "1.0.0",
+  "description": "display crypto rates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MynameJeffo/crypto-exchange-display.git"
+  },
+  "author": "Tom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MynameJeffo/crypto-exchange-display/issues"
+  },
+  "homepage": "https://github.com/MynameJeffo/crypto-exchange-display#readme"
+}
