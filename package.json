@@ -1,7 +1,7 @@
 {
-  "name": "crypto-exchange",
+  "name": "crypto-exchange-display",
   "version": "1.0.0",
-  "description": "display crypto rates",
+  "description": "displaying crypto exchange rate",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/MynameJeffo/crypto-exchange-display/issues"
   },
-  "homepage": "https://github.com/MynameJeffo/crypto-exchange-display#readme"
+  "homepage": "https://github.com/MynameJeffo/crypto-exchange-display#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cowsay": "^1.4.0",
+    "express": "^4.17.1"
+  }
 }
