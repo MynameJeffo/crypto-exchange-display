@@ -41,3 +41,6 @@ input {
   margin-bottom: 1em;
   border: 1px solid grey
 }
+.priceTable {
+  width: 70vw;
+}

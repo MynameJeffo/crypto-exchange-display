@@ -10,52 +10,44 @@ app.use(express.static(path.join(__dirname, 'client/build')))
 
 
 // Serve our api route /cow that returns a custom talking text cow
-app.get('/api/cow/:say', cors(), async (req, res, next) => {
-  try {
-    
-    const text = req.params.say
-    const moo = cowsay.say({ text })
-    console.log("untz untz")
-    res.json({ moo })
-  } catch (err) {
-    next(err)
-  }
-})
-// Serve our base route that returns a Hello World cow
-app.get('/api/cow/', cors(), async (req, res, next) => {
-  try {
-    const moo = cowsay.say({ text: 'Hello World!' })
-    console.log("yr mum")
-    res.json({ moo })
-  } catch (err) {
-    next(err)
-  }
-})
 
-app.post('/api/currency/post/', function (req, res, next) {
+// Serve our base route that returns a Hello World cow
+// app.get('/api/cow/', cors(), async (req, res, next) => {
+//   try {
+//     const moo = cowsay.say({ text: 'Hello World!' })
+//     console.log("yr mum")
+//     res.json({ moo })
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
+app.post('/api/currency/post/:price', function (req, res, next) {
     console.log("create currency");
     try {
-        const moo = cowsay.say({ text: 'untz untz create the currency' })
+        const text = req.params.price
+        const moo = cowsay.say({ text })
         res.json({ moo })
     } catch (err) {
         next(err)
     }
 })
 
-app.put('/api/currency/update/', function (req, res, next) {
+app.get('/api/currency/update/:price', cors(), async (req, res, next) => {
+  try {
     console.log("update currency");
-    try {
-        const moo = cowsay.say({ text: 'untz untz update the currency' })
-        res.json({ moo })
-    } catch (err) {
-        next(err)
-    }
+    const text = req.params.price
+    const moo = cowsay.say({ text })
+    res.json({ moo })
+  } catch (err) {
+    next(err)
+  }
 })
 
 app.delete('/api/currency/delete/', function (req, res, next) {
     console.log("delete currency");
     try {
-        const moo = cowsay.say({ text: 'untz untz update the currency' })
+        const moo = cowsay.say({ text: 'untz untz delete the currency' })
         res.json({ moo })
     } catch (err) {
         next(err)
@@ -65,7 +57,7 @@ app.delete('/api/currency/delete/', function (req, res, next) {
 app.get('/api/currency/get/', function (req, res, next) {
     console.log("get currency");
     try {
-        const moo = cowsay.say({ text: 'untz untz get the currency' })
+        const moo = cowsay.say({ text: 'gotta get get' })
         res.json({ moo })
     } catch (err) {
         next(err)
