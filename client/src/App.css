@@ -1,9 +1,14 @@
+body {
+  background-color: #00002d;
+  line-height: 2.5em;
+}
+
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 2em;
-  white-space: pre
+  white-space: pre;
 }
 .App code {
   margin: 2em;
@@ -12,6 +17,17 @@
   text-align: left;
   font-size: 2em;
 }
+
+.react-bs-table-bordered {
+  /*shit fix */
+  border: 0px;
+}
+
+.react-bs-container-header {
+  border-bottom: 1px solid white;
+}
+
+
 h3 {
   font-size: 2.5em;
   margin: 1em;
@@ -41,6 +57,23 @@ input {
   margin-bottom: 1em;
   border: 1px solid grey
 }
+
 .priceTable {
-  width: 70vw;
+  width: 60vw;
+}
+
+.priceField {
+  width: 20vw;
+}
+
+.currency {
+  color: #c8963d;
+}
+
+.buy {
+  color: #76d641;
+}
+
+.sell {
+  color: #e6f92d;
 }
