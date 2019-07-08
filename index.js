@@ -2,6 +2,10 @@ const express = require('express')
 const cowsay = require('cowsay')
 const cors = require('cors')
 const path = require('path')
+
+const MongoClient = require('mongodb').MongoClient;
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017/"
+
 // Create the server
 const app = express()
 
@@ -34,14 +38,27 @@ app.post('/api/currency/post/:price', function (req, res, next) {
 })
 
 app.get('/api/currency/update/:price', cors(), async (req, res, next) => {
-  try {
-    console.log("update currency");
-    const text = req.params.price
-    const moo = cowsay.say({ text })
-    res.json({ moo })
-  } catch (err) {
-    next(err)
-  }
+    MongoClient.connect(url, function(err,db) {
+        if(err) throw err;
+        var dbo = db.db("heroku_c09m21fr");
+        var query = { msg_to: "shehan" };
+            dbo.collection("msg_table").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            db.close();
+            res.render('community', { title: 'Community', "messages" : result, record_no : 1});
+        });
+
+    })
+
+    try {
+        console.log("update currency");
+        const text = req.params.price
+        const moo = cowsay.say({ text })
+        res.json({ moo })
+    } catch (err) {
+        next(err)
+    }
 })
 
 app.delete('/api/currency/delete/', function (req, res, next) {
@@ -55,8 +72,21 @@ app.delete('/api/currency/delete/', function (req, res, next) {
 })
 
 app.get('/api/currency/get/', function (req, res, next) {
-    console.log("get currency");
+    MongoClient.connect(url, function(err,db) {
+        if(err) throw err;
+        var dbo = db.db("heroku_c09m21fr");
+        var query = { msg_to: "shehan" };
+            dbo.collection("msg_table").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            db.close();
+            res.render('community', { title: 'Community', "messages" : result, record_no : 1});
+        });
+
+    })
+    
     try {
+        console.log("get currency");
         const moo = cowsay.say({ text: 'gotta get get' })
         res.json({ moo })
     } catch (err) {
