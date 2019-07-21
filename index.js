@@ -41,8 +41,8 @@ app.get('/api/currency/update/:price', cors(), async (req, res, next) => {
     MongoClient.connect(url, function(err,db) {
         if(err) throw err;
         var dbo = db.db("heroku_c09m21fr");
-        var query = { msg_to: "shehan" };
-            dbo.collection("msg_table").find(query).toArray(function(err, result) {
+        var query = { BUY: { $gt: 1 } };
+        dbo.collection("CryptoCurrencyTable").find(query).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
             db.close();
@@ -75,12 +75,12 @@ app.get('/api/currency/get/', function (req, res, next) {
     MongoClient.connect(url, function(err,db) {
         if(err) throw err;
         var dbo = db.db("heroku_c09m21fr");
-        var query = { msg_to: "shehan" };
-            dbo.collection("msg_table").find(query).toArray(function(err, result) {
+        var query = { BUY: { $gt: 1 } };
+            dbo.collection("CryptoCurrencyTable").find(query).toArray(function(err, result) {
             if (err) throw err;
             console.log(result);
             db.close();
-            res.render('community', { title: 'Community', "messages" : result, record_no : 1});
+            // res.render('community', { title: 'Community', "messages" : result, record_no : 1});
         });
 
     })
