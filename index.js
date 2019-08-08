@@ -2,12 +2,36 @@ const express = require('express')
 const cowsay = require('cowsay')
 const cors = require('cors')
 const path = require('path')
+const mongoose = require("mongoose");
 
-const MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017/"
+require('dotenv').config();
+
+//connect to database
+
+const url = "mongodb://@ds261486.mlab.com:61486/heroku_c09m21fr";
+
+// mongoose.Promise = global.Promise;
+const options = { user: 'cryptoUser', pass: 'Crypto4ever' };
+mongoose.connect(url, options);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection errorrrr:'));
+
+db.once('open', function() {
+    // we're connected!
+    console.log("We are connected!");
+});
+
+const CurrencySchema = new mongoose.Schema({
+    currencyEngName: String,
+    currencyChiName: String,
+    BUY: String,
+    SELL: String,
+}, { collection : 'CryptoCurrencyTable' });
+
+const Currency = mongoose.model("Currency", CurrencySchema);
 
 // Create the server
-const app = express()
+const app = express();
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'client/build')))
@@ -15,44 +39,62 @@ app.use(express.static(path.join(__dirname, 'client/build')))
 
 // Serve our api route /cow that returns a custom talking text cow
 
-// Serve our base route that returns a Hello World cow
-// app.get('/api/cow/', cors(), async (req, res, next) => {
-//   try {
-//     const moo = cowsay.say({ text: 'Hello World!' })
-//     console.log("yr mum")
-//     res.json({ moo })
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-app.post('/api/currency/post/:price', function (req, res, next) {
-    console.log("create currency");
+app.get('/api/currency/get/', function (req, res, next) {
     try {
-        const text = req.params.price
-        const moo = cowsay.say({ text })
-        res.json({ moo })
+        Currency.find({}, function(error, currencies) {
+            console.log("get currencyyy: ", currencies); 
+            //Display the comments returned by MongoDB, if any were found. Executes after the query is complete.
+            res.json({ currencies })
+        });
+        console.log("get currency");
     } catch (err) {
         next(err)
     }
 })
 
-app.get('/api/currency/update/:price', cors(), async (req, res, next) => {
-    MongoClient.connect(url, function(err,db) {
-        if(err) throw err;
-        var dbo = db.db("heroku_c09m21fr");
-        var query = { BUY: { $gt: 1 } };
-        dbo.collection("CryptoCurrencyTable").find(query).toArray(function(err, result) {
-            if (err) throw err;
-            console.log(result);
-            db.close();
-            res.render('community', { title: 'Community', "messages" : result, record_no : 1});
-        });
+app.put('/api/currency/update/:id/:newValue/:fieldName', cors(), async (req, res, next) => {
 
-    })
+    // console.log("req, _id -> ", req.params.id);
+    // console.log("req, newValue -> ", req.params.newValue);
+    // console.log("req, field -> ", req.params.fieldName);
 
     try {
         console.log("update currency");
+        const id = req.params.id;
+        const fieldName = req.params.fieldName;
+        const newValue = req.params.newValue;
+
+        let update = ({});
+        switch(fieldName) {
+            
+            case "currencyEngName":          
+                update = { currencyEngName : newValue }
+                break;
+            case "currencyChiName":
+                update = { currencyChiName : newValue }
+                break;
+            case "BUY":
+                update = { BUY : newValue }
+                break;
+            case "SELL":
+                update = { SELL : newValue }
+                break;
+            default:
+        }
+
+        var options = { new: true };
+        let result = await Currency.findByIdAndUpdate(id, update, options);
+        console.log("result-> ", result);
+        res.json({ result })
+
+    } catch (err) {
+        next(err)
+    }
+})
+
+app.post('/api/currency/post/:price', function (req, res, next) {
+    console.log("create currency");
+    try {
         const text = req.params.price
         const moo = cowsay.say({ text })
         res.json({ moo })
@@ -71,28 +113,7 @@ app.delete('/api/currency/delete/', function (req, res, next) {
     }
 })
 
-app.get('/api/currency/get/', function (req, res, next) {
-    MongoClient.connect(url, function(err,db) {
-        if(err) throw err;
-        var dbo = db.db("heroku_c09m21fr");
-        var query = { BUY: { $gt: 1 } };
-            dbo.collection("CryptoCurrencyTable").find(query).toArray(function(err, result) {
-            if (err) throw err;
-            console.log(result);
-            db.close();
-            // res.render('community', { title: 'Community', "messages" : result, record_no : 1});
-        });
 
-    })
-    
-    try {
-        console.log("get currency");
-        const moo = cowsay.say({ text: 'gotta get get' })
-        res.json({ moo })
-    } catch (err) {
-        next(err)
-    }
-})
 
 // Anything that doesn't match the above, send back index.html
 app.get('*', (req, res) => {
