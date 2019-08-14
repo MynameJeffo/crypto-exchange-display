@@ -13,8 +13,7 @@ const cellEditProp = {
 };
 
 async function onAfterSaveCell(row, cellName, cellValue) {
-  alert(`Save row ${row._id} cell ${cellName} with value ${cellValue}`);
-  console.log("row",row);
+  alert(`Save cell ${cellName} with value ${cellValue}`);
   axios.put(`/api/currency/update/${row._id}/${cellValue}/${cellName}`)
   .then(result =>
     this.setState({priceFeedData: []}))
@@ -24,11 +23,9 @@ async function onAfterSaveCell(row, cellName, cellValue) {
   
 }
 
-function onBeforeSaveCell(row, cellName, cellValue) {
-  // You can do any validation on here for editing value,
-  // return false for reject the editing
-  return true;
-}
+// function onBeforeSaveCell(row, cellName, cellValue) {
+  // return true;
+// }
 
 class Home extends Component {
 
@@ -41,11 +38,6 @@ componentDidMount() {
   }
   
 fetchPrices = async () => {
-    // const response = await fetch(`/api/currency/get/`)
-    // console.log(`initial fetch price`)
-    // const priceData = await response.json()
-    // console.log("response: ", priceData);
-    // this.setState({ priceFeedData: priceData })
 
     axios.get(`/api/currency/get/`)
       .then(result =>

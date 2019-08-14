@@ -10,7 +10,6 @@ require('dotenv').config();
 
 const url = "mongodb://@ds261486.mlab.com:61486/heroku_c09m21fr";
 
-// mongoose.Promise = global.Promise;
 const options = { user: 'cryptoUser', pass: 'Crypto4ever' };
 mongoose.connect(url, options);
 const db = mongoose.connection;
@@ -66,7 +65,6 @@ app.put('/api/currency/update/:id/:newValue/:fieldName', cors(), async (req, res
 
         let update = ({});
         switch(fieldName) {
-            
             case "currencyEngName":          
                 update = { currencyEngName : newValue }
                 break;
@@ -81,7 +79,7 @@ app.put('/api/currency/update/:id/:newValue/:fieldName', cors(), async (req, res
                 break;
             default:
         }
-
+        
         var options = { new: true };
         let result = await Currency.findByIdAndUpdate(id, update, options);
         console.log("result-> ", result);
@@ -92,26 +90,26 @@ app.put('/api/currency/update/:id/:newValue/:fieldName', cors(), async (req, res
     }
 })
 
-app.post('/api/currency/post/:price', function (req, res, next) {
-    console.log("create currency");
-    try {
-        const text = req.params.price
-        const moo = cowsay.say({ text })
-        res.json({ moo })
-    } catch (err) {
-        next(err)
-    }
-})
+// app.post('/api/currency/post/:price', function (req, res, next) {
+//     console.log("create currency");
+//     try {
+//         const text = req.params.price
+//         const moo = cowsay.say({ text })
+//         res.json({ moo })
+//     } catch (err) {
+//         next(err)
+//     }
+// })
 
-app.delete('/api/currency/delete/', function (req, res, next) {
-    console.log("delete currency");
-    try {
-        const moo = cowsay.say({ text: 'untz untz delete the currency' })
-        res.json({ moo })
-    } catch (err) {
-        next(err)
-    }
-})
+// app.delete('/api/currency/delete/', function (req, res, next) {
+//     console.log("delete currency");
+//     try {
+//         const moo = cowsay.say({ text: 'untz untz delete the currency' })
+//         res.json({ moo })
+//     } catch (err) {
+//         next(err)
+//     }
+// })
 
 
 

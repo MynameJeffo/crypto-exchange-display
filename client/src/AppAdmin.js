@@ -41,11 +41,6 @@ componentDidMount() {
   }
   
 fetchPrices = async () => {
-    // const response = await fetch(`/api/currency/get/`)
-    // console.log(`initial fetch price`)
-    // const priceData = await response.json()
-    // console.log("response: ", priceData);
-    // this.setState({ priceFeedData: priceData })
 
     axios.get(`/api/currency/get/`)
       .then(result =>
