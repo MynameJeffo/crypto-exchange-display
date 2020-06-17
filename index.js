@@ -8,7 +8,7 @@ require('dotenv').config();
 
 //connect to database
 
-const url = "mongodb://@ds261486.mlab.com:61486/heroku_c09m21fr";
+const url = "";
 
 const options = { user: 'cryptoUser', pass: 'Crypto4ever' };
 mongoose.connect(url, options);
